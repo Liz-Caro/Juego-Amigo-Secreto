@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <title>Amigo Secreto</title>
+</head>
+
+<body>
+    <main class="main-content">
+        <header class="header-banner">
+            <h1 class="main-title">Amigo Secreto</h1>
+            <img src="assets/amigo-secreto.png" alt="Imagen representativa de amigo secreto">
+        </header>
+        
+        <section class="input-section">
+            <h2 class="section-title">Digite el nombre de sus amigos</h2>
+            <div class="input-wrapper">
+                <input type="text" id="nombreAmigo" class="input-name" placeholder="Escribe un nombre">
+                <button class="button-add" onclick="agregarAmigo()">Añadir</button>
+            </div>
+           
+            <ul id="listaAmigos" class="name-list" aria-labelledby="listaAmigos" role="list"></ul>
+
+            <div class="button-container">
+                <button class="button-draw" onclick="sortearAmigo()" aria-label="Sortear amigo secreto">
+                    <img src="assets/play_circle_outline.png" alt="Ícono para sortear">
+                    Sortear amigo
+                </button>
+            </div>
+
+            <ul id="resultado" class="result-list" aria-live="polite"></ul>
+        </section>
+    </main>
+
+    <script>
+        // Declaramos el array para almacenar los nombres de los amigos
+        let amigos = [];
+
+        // Función para agregar amigos
+        function agregarAmigo() {
+            // Capturar el valor del campo de entrada
+            let inputNombre = document.getElementById("nombreAmigo");
+            let nombre = inputNombre.value.trim(); // Eliminamos espacios en blanco al inicio y al final
+
+            // Validar la entrada
+            if (nombre === "") {
+                alert("Por favor, inserte un nombre.");
+                return;
+            }
+
+            // Actualizar el array de amigos
+            amigos.push(nombre);
+
+            // Limpiar el campo de entrada
+            inputNombre.value = "";
+
+            // Actualizar la lista en la interfaz
+            actualizarListaAmigos();
+        }
+
+        // Función para actualizar la lista de amigos en la interfaz
+        function actualizarListaAmigos() {
+            // Obtener el elemento de la lista
+            let listaAmigos = document.getElementById("listaAmigos");
+
+            // Limpiar la lista existente
+            listaAmigos.innerHTML = "";
+
+            // Iterar sobre el arreglo y agregar cada amigo como un <li>
+            for (let i = 0; i < amigos.length; i++) {
+                let listItem = document.createElement("li");
+                listItem.textContent = amigos[i]; // Asignar el nombre del amigo
+                listaAmigos.appendChild(listItem); // Agregar el <li> a la lista
+            }
+        }
+
+        // Función para sortear un amigo aleatorio
+        function sortearAmigo() {
+            // Validar que haya amigos disponibles
+            if (amigos.length === 0) {
+                alert("No hay amigos en la lista para sortear.");
+                return;
+            }
+
+            // Generar un índice aleatorio
+            let indiceAleatorio = Math.floor(Math.random() * amigos.length);
+
+            // Obtener el nombre sorteado
+            let amigoSorteado = amigos[indiceAleatorio];
+
+            // Mostrar el resultado en la página
+            let resultado = document.getElementById("resultado");
+            resultado.innerHTML = `<li>El amigo secreto es: <strong>${amigoSorteado}</strong></li>`;
+        }
+    </script>
+</body>
+</html>
+
+
